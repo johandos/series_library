@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  #Nginx Service
+  webserver-bull:
+    restart: unless-stopped
+    build:
+      context: ./config/nginx/
+      dockerfile: Dockerfile
+    depends_on:
+      - new-proyect
+    volumes:
+      - ../bullshop2.0/:/var/www/${NEW}/
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/sites-available:/etc/nginx/sites-available/
+      - ./config/nginx/sites-available:/etc/nginx/sites-enabled/
+
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+    container_name: webserver-bull
+    ports:
+      - "80:80"
+    networks:
+      vpcGlobal:
+        ipv4_address: 12.5.0.3
+  #PHP Service
+  new-proyect:
+    build:
+      context: ./config/php/8_1/
+      dockerfile: Dockerfile
+    container_name: new-proyect
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/${NEW}/
+    volumes:
+      - ../bullshop2.0/:/var/www/${NEW}/
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    networks:
+      vpcGlobal:
+        ipv4_address: 12.5.0.4

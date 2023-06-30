@@ -1,82 +1,46 @@
 <?php
-    require_once('./controllers/PlatformController.php');
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
-          crossorigin="anonymous">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Biblioteca</title>
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1>Biblioteca de plataformas</h1>
-            </div>
-            <div class="col-12">
-                <div class="d-flex align-items-center justify-content-center">
-                    <div class="col-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Plataformas</h5>
-                                <p class="card-text">Listado y gestión de las plataformas creadas en BBDD.</p>
-                                <a class="btn btn-primary" href="views/platforms/list.php">Listado de plataformas</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Idiomas</h5>
-                                <p class="card-text">Listado y gestión de los idiomas.</p>
-                                <a class="btn btn-primary" href="views/platforms/ejemplo.php">Ejemplo PHP</a>
-                                <!--                                <a class="btn btn-primary" href="views/idioms/list.php">Listado de idiomas</a>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Directores</h5>
-                                <p class="card-text">Listado y gestión de los directores creados.</p>
-                                <a class="btn btn-primary" href="views/directors/list.php">Listado de directores</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Actores</h5>
-                                <p class="card-text">Listado y gestión de los actores creados.</p>
-                                <a class="btn btn-primary" href="views/actors/list.php">Listado de actores</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Series</h5>
-                                <p class="card-text">Listado y gestión de los series creados.</p>
-                                <a class="btn btn-primary" href="views/series/list.php">Listado de series</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+require_once __DIR__ . '/Controller/PlatformController.php';
+
+// Cargar el autoloader u otras configuraciones necesarias
+
+// Obtener la ruta de la solicitud
+$requestUri = $_SERVER['REQUEST_URI'];
+
+// Determinar el controlador y la acción basados en la ruta
+$controller = 'PlatformController';
+$action = 'index';
+
+// Separar la ruta en segmentos
+$segments = explode('/', $requestUri);
+
+// Obtener el controlador y la acción de los segmentos de la ruta
+if (isset($segments[1]) && !empty($segments[1])) {
+    $controller = ucfirst($segments[1]) . 'Controller';
+}
+
+if (isset($segments[2]) && !empty($segments[2])) {
+    $action = explode('?', $segments[2]);
+    $action = $action[0];
+}
+// Crear el nombre completo de la clase del controlador
+$controllerClass = 'Controller\\' . $controller;
+
+
+// Verificar si la clase del controlador existe
+if (class_exists($controllerClass)) {
+    // Crear una instancia del controlador
+    $controllerInstance = new $controllerClass();
+
+    // Verificar si el la accion y controlador existen
+    if (method_exists($controllerInstance, $action)) {
+        // Llamar al accion del controller
+        $controllerInstance->$action();
+    } else {
+        // Manejar error: acción no encontrada
+        echo "Error: Acción no encontrada.";
+    }
+} else {
+    // Manejar error: controlador no encontrado
+    echo "Error: Controlador no encontrado.";
+}

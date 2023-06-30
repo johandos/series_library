@@ -1,5 +1,5 @@
 <?php
-    include('../controllers/PlatformController.php');
+    include('../Controller/PlatformController.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">

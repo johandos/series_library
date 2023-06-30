@@ -1,38 +1,58 @@
 version: '3.9'
 services:
   #Nginx Service
-  webserver-bull:
+  webserver-series:
     restart: unless-stopped
     build:
-      context: ./config/nginx/
+      context: ./docker/nginx/
       dockerfile: Dockerfile
     depends_on:
-      - new-proyect
+      - project
     volumes:
-      - ../bullshop2.0/:/var/www/${NEW}/
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/nginx/sites-available:/etc/nginx/sites-available/
-      - ./config/nginx/sites-available:/etc/nginx/sites-enabled/
-
+      - ../series_library/:/var/www/${APP}/
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/sites-available:/etc/nginx/sites-available/
+      - ./docker/sites-available:/etc/nginx/sites-enabled/
     command: [ nginx-debug, '-g', 'daemon off;' ]
-    container_name: webserver-bull
+    container_name: webserver-series
     ports:
       - "82:80"
     networks:
-      vpcGlobal:
-        ipv4_address: 12.5.0.3
+      seriesNet:
+        ipv4_address: 20.5.0.3
   #PHP Service
-  new-proyect:
+  project:
     build:
-      context: ./config/php/8_1/
+      context: ./docker/php/
       dockerfile: Dockerfile
-    container_name: new-proyect
+    container_name: project
     restart: unless-stopped
     tty: true
-    working_dir: /var/www/${NEW}/
+    working_dir: /var/www/${APP}/
     volumes:
-      - ../bullshop2.0/:/var/www/${NEW}/
+      - ../series_library/:/var/www/${APP}/
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     networks:
-      vpcGlobal:
-        ipv4_address: 12.5.0.4
+      seriesNet:
+        ipv4_address: 20.5.0.4
+  db:
+    image: mysql:8.0
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_DATABASE=series_test
+      - MYSQL_USER=user_series
+      - MYSQL_PASSWORD=series_pwd
+      - MYSQL_ROOT_PASSWORD=series_pw
+    networks:
+      seriesNet:
+        ipv4_address: 20.5.0.5
+#Docker Networks
+networks:
+  seriesNet:
+    name: seriesNet
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 20.5.0.0/16
+          gateway: 20.5.0.1

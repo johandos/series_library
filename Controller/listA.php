@@ -1,5 +1,5 @@
 <?php
-//    require_once('../../controllers/PlatformController.php');
+//    require_once('../../Controller/PlatformController.php');
 include('PlatformController.php');
     echo "aaaa1";
     $platformList = listPlatforms();

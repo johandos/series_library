@@ -72,4 +72,13 @@ class PlatformController
         header("Location: /");
         exit();
     }
+
+    public function delete()
+    {
+        $newPlatform = new Platform();
+        $newPlatform->delete($_POST['platformId']);
+
+        header("Location: /");
+        exit();
+    }
 }

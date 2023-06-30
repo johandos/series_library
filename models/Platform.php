@@ -68,6 +68,18 @@ class Platform{
         return $platformCreated;
     }
 
+    function delete($id)
+    {
+        $platformCreated = false;
+        $conection = new conexion();
+        $mysqli = $conection->conectar();
+        if($resultInsert = $mysqli->query("DELETE FROM platform WHERE id_platform = $id")){
+            $platformCreated = true;
+        }
+        $mysqli->close();
+        return $platformCreated;
+    }
+
 
         /**
      * @return mixed

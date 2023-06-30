@@ -1,9 +1,9 @@
 <?php
-   include("controllers/conexionv2.php");
-   $conn =  conectar();
-   $sql = "SELECT * FROM platform";
-   $query = mysqli_query($conn, $sql);
-//   echo "test";
+    require_once("util/conexionDB/conexion.php");
+    $conn = conectar();
+    $sql = "SELECT * FROM platform";
+    $query = mysqli_query($conn, $sql);
+    //   echo "test";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,52 +24,67 @@
     <title>Test Conect</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <h1>Ingresa tu nombre de plataforma</h1>
-                <form action="insertar.php" method="post">
-                    <input type="text"
-                    name="plat_name"
-                    class="form-control mb-3"
-                    placeholder="Escribe tu nombre de plataforma">
-                    <input type="submit"
-                           value="Insertar"
-                           class="btn btn-primary">
-                </form>
-            </div>
-            <div class="col-md-8">
-                <table class="table">
-                    <thead class="table-success table-striped">
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre Plataforma</th>
-                        <th>
-                            Acciones
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            while($row=mysqli_fetch_array($query)){
-                        ?>
-                            <tr>
-                                <td>
-                                    <?php echo $row['id_platform'] ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['plat_name'] ?>
-                                </td>
-                            </tr>
-                        <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+<div class="container mt-2">
+    <div class="row">
+        <h1 class="text-center">Tu-Escape</h1>
     </div>
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Ingresar nueva plataforma</h3>
+            <form action="insertar.php" method="post">
+                <input type="text"
+                       name="plat_name"
+                       class="form-control mb-3"
+                       placeholder="Escribe tu nombre de plataforma">
+                <input type="submit"
+                       value="Insertar"
+                       class="btn btn-primary">
+            </form>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <h3 class="text-center">
+                    Plataformas
+                </h3>
+            </div>
+            <table class="table">
+                <thead class="table-success table-striped">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre Plataforma</th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                while ($row = mysqli_fetch_array($query)) {
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo $row['id_platform'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['plat_name'] ?>
+                        </td>
+                        <td>
+                            <a href="actualizar.php?id=<?php echo $row['id_platform'] ?>"
+                               class="btn btn-warning">Editar</a>
+                            |
+                            <a href="delete.php?id=<?php echo $row['id_platform'] ?>"
+                               class="btn btn-danger">Borrar</a>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
 
 </body>
 

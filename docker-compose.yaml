@@ -17,7 +17,7 @@ services:
     command: [ nginx-debug, '-g', 'daemon off;' ]
     container_name: webserver-bull
     ports:
-      - "80:80"
+      - "82:80"
     networks:
       vpcGlobal:
         ipv4_address: 12.5.0.3

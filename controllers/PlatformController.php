@@ -1,44 +1,30 @@
 <?php
 require_once('../models/Platform.php');
 
-    function initConnectionDB()
-    {
-        $db_host = 'localhost';
-        $db_user = 'root';
-        $db_password = 'root';
-        $db_db = 'actividad_1';
-        $db_port = 3306;
-
-        $mysqli = @new mysqli(
-            $db_host,
-            $db_user,
-            $db_password,
-            $db_db,
-            $db_port
-        );
-
-        if ($mysqli->connect_error) {
-            die('Error: ' . $mysqli->connect_error);
-        }
-
-        return $mysqli;
-    }
-
     function listPlatforms()
     {
 
-        $mysqli = initConnectionDB();
-        $platformList = $mysqli->query("SELECT * FROM platforms");
+        $model = new Platform();
+//        echo "entro";
 
+        $platformList = $model->getAll();
         $platformObjectArray = [];
+
         foreach ($platformList as $platformItem) {
-            $platformObject = new Platform($platformItem['id'], $platformItem['name']);
+            $platformObject = new Platform($platformItem->getId(), $platformItem->getName());
             array_push($platformObjectArray, $platformObject);
+//            echo " - ".$platformItem->getId();
+//            echo " - ".$platformItem->getName();
         }
-        $mysqli->close();
-
         return $platformObjectArray;
-
     }
 
-?>
+    function storePlatform ($plat_name){
+
+        $newPlatform = new Platform(null, $plat_name);
+        $platformCreated = $newPlatform->store();
+
+        return $platformCreated;
+    }
+
+

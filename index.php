@@ -1,6 +1,6 @@
-<!--<?php-->
-<!--    require_once('../controllers/PlatformController.php');-->
-<!--?>-->
+<?php
+    require_once('./controllers/PlatformController.php');
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,7 +33,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Plataformas</h5>
                                 <p class="card-text">Listado y gestión de las plataformas creadas en BBDD.</p>
-                                <a class="btn btn-primary" href="viewPlatforms/list.php">Listado de plataformas</a>
+                                <a class="btn btn-primary" href="views/platforms/list.php">Listado de plataformas</a>
                             </div>
                         </div>
                     </div>

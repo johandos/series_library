@@ -7,27 +7,23 @@ use models\Platform;
 require_once __DIR__ . '/../models/Platform.php';
 require_once  __DIR__ . '/BaseController.php';
 
-class SerieController extends BaseController
+class PlatformsController extends BaseController
 {
     public function index()
     {
         // Obtener la lista de plataformas desde el modelo
         $model = new Platform();
-        $platformList = $model->getAll();
+        $platforms = $model->getAll();
 
-        // Renderizar la vista y pasar los datos
-        return $this->render('platforms/index.php', ['platformList' => $platformList]);
+        $viewPath = __DIR__ . '/../views/platforms/index.php';
+
+        print $this->render($viewPath, ['platforms' => $platforms]);
     }
 
     public function create()
     {
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/create.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/platforms/create.php';
+        print $this->render($viewPath);
     }
 
     public function store()
@@ -36,7 +32,7 @@ class SerieController extends BaseController
         $newPlatform->insert($_POST['platformName']);
 
 
-        header("Location: /");
+        header("Location: /platforms");
         exit();
     }
 
@@ -46,13 +42,8 @@ class SerieController extends BaseController
         $platform = new Platform();
         $platform = $platform->findOne($id);
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/edit.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/platforms/edit.php';
+        print $this->render($viewPath, ['platform' => $platform]);
     }
 
     public function updated()
@@ -61,16 +52,16 @@ class SerieController extends BaseController
         $newPlatform->updated($_POST['platformId'], $_POST['platformName']);
 
 
-        header("Location: /");
+        header("Location: /platforms");
         exit();
     }
 
     public function delete()
     {
         $newPlatform = new Platform();
-        $newPlatform->delete($_POST['platformId']);
+        $newPlatform->delete($_POST['id']);
 
-        header("Location: /");
+        header("Location: /platforms");
         exit();
     }
 }

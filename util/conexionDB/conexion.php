@@ -4,7 +4,7 @@ namespace util;
 
 class conexion{
     function conectar() {
-        $enlace = mysqli_connect("20.5.0.5","root", "series_pw","series_test");
+        $enlace = mysqli_connect("127.0.0.1","root", "","series_test");
         if ($enlace->connect_error) {
             die('Error: ' . $enlace->connect_error);
         }

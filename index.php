@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/Controller/PlatformController.php';
+require_once __DIR__ . '/Controller/PlatformsController.php';
 
 // Cargar el autoloader u otras configuraciones necesarias
 
@@ -8,7 +8,7 @@ require_once __DIR__ . '/Controller/PlatformController.php';
 $requestUri = $_SERVER['REQUEST_URI'];
 
 // Determinar el controlador y la acción basados en la ruta
-$controller = 'PlatformController';
+$controller = 'PlatformsController';
 $action = 'index';
 
 // Separar la ruta en segmentos
@@ -31,7 +31,6 @@ $controllerClass = 'Controller\\' . $controller;
 if (class_exists($controllerClass)) {
     // Crear una instancia del controlador
     $controllerInstance = new $controllerClass();
-
     // Verificar si el la accion y controlador existen
     if (method_exists($controllerInstance, $action)) {
         // Llamar al accion del controller

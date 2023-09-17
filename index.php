@@ -1,6 +1,14 @@
 <?php
 
+require_once __DIR__ . '/Controller/ActorController.php';
+require_once __DIR__ . '/Controller/DirectorController.php';
+require_once __DIR__ . '/Controller/GenderController.php';
+require_once __DIR__ . '/Controller/LanguageController.php';
 require_once __DIR__ . '/Controller/PlatformsController.php';
+require_once __DIR__ . '/Controller/RestrictionController.php';
+require_once __DIR__ . '/Controller/SeasonController.php';
+require_once __DIR__ . '/Controller/SerieController.php';
+require_once __DIR__ . '/Controller/TranslateController.php';
 
 // Cargar el autoloader u otras configuraciones necesarias
 
@@ -26,6 +34,8 @@ if (isset($segments[2]) && !empty($segments[2])) {
 // Crear el nombre completo de la clase del controlador
 $controllerClass = 'Controller\\' . $controller;
 
+//'Controller\PlatformsController';
+//'Controller\DirectorController';
 
 // Verificar si la clase del controlador existe
 if (class_exists($controllerClass)) {

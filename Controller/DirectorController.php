@@ -2,83 +2,96 @@
 
 namespace Controller;
 
-use models\Platform;
+use models\Director;
+use Controller\BaseController;
 
-require_once __DIR__ . '/../models/Platform.php';
+require_once __DIR__ . '/../models/Director.php';
+require_once __DIR__ . '/BaseController.php';
 
-class DirectorController
+class DirectorController extends BaseController
 {
     public function index()
     {
-        $model = new Platform();
-        $platformList = $model->getAll();
-        $platformObjectArray = [];
-        foreach ($platformList as $platformItem) {
-            $platformObject = new Platform($platformItem->getId(), $platformItem->getName());
-            $platformObjectArray[] = $platformObject;
-        }
+        // Obtener la lista de directores desde el modelo
+        $directorModel = new Director();
+        $directors = $directorModel->getAll();
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/index.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/directors/index.php';
+        print $this->render($viewPath, ['directors' => $directors]);
     }
 
     public function create()
     {
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/create.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/director/create.php';
+        print $this->render($viewPath);
     }
 
     public function store()
     {
-        $newPlatform = new Platform();
-        $newPlatform->insert($_POST['platformName']);
+        // Lógica para crear un director
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['directorName'];
+            $surname = $_POST['directorSurname'];
+            $nacionality = $_POST['directorNacionality'];
 
+            $newDirector = new Director();
+            $directorCreated = $newDirector->insert($name, $surname, $nacionality);
 
-        header("Location: /");
-        exit();
+            if ($directorCreated) {
+                header("Location: /directors");
+                exit();
+            } else {
+                // Manejo de errores
+            }
+        }
     }
 
     public function edit()
     {
         $id = $_GET['id'];
-        $platform = new Platform();
-        $platform = $platform->findOne($id);
+        $director = new Director();
+        $director = $director->findOne($id);
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/edit.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/director/edit.php';
+        print $this->render($viewPath, ['director' => $director]);
     }
 
-    public function updated()
+    public function update()
     {
-        $newPlatform = new Platform();
-        $newPlatform->updated($_POST['platformId'], $_POST['platformName']);
+        // Lógica para actualizar un director
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['directorId'];
+            $name = $_POST['directorName'];
+            $surname = $_POST['directorSurname'];
+            $nacionality = $_POST['directorNacionality'];
 
+            $director = new Director();
+            $directorUpdated = $director->update($id, $name, $surname, $nacionality);
 
-        header("Location: /");
-        exit();
+            if ($directorUpdated) {
+                header("Location: /directors");
+                exit();
+            } else {
+                // Manejo de errores
+            }
+        }
     }
 
     public function delete()
     {
-        $newPlatform = new Platform();
-        $newPlatform->delete($_POST['platformId']);
+        // Lógica para eliminar un director
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
 
-        header("Location: /");
-        exit();
+            $director = new Director();
+            $directorDeleted = $director->delete($id);
+
+            if ($directorDeleted) {
+                return 'ok';
+            } else {
+                // Manejo de errores
+                return 'error';
+            }
+        }
     }
 }

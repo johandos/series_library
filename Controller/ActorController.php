@@ -2,83 +2,41 @@
 
 namespace Controller;
 
-use models\Platform;
+use models\Actor;
+use Controller\BaseController;
 
-require_once __DIR__ . '/../models/Platform.php';
-require_once  __DIR__ . '/BaseController.php';
-class ActorController
+require_once __DIR__ . '/../models/Actor.php';
+require_once __DIR__ . '/BaseController.php';
+
+class ActorController extends BaseController
 {
     public function index()
     {
-        $model = new Platform();
-        $platformList = $model->getAll();
-        $platformObjectArray = [];
-        foreach ($platformList as $platformItem) {
-            $platformObject = new Platform($platformItem->getId(), $platformItem->getName());
-            $platformObjectArray[] = $platformObject;
-        }
-
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/index.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        // Obtener la lista de actores desde el modelo y mostrar en la vista
     }
 
     public function create()
     {
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/create.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        // Mostrar el formulario para crear un actor
     }
 
     public function store()
     {
-        $newPlatform = new Platform();
-        $newPlatform->insert($_POST['platformName']);
-
-
-        header("Location: /");
-        exit();
+        // Procesar el formulario para crear un actor
     }
 
     public function edit()
     {
-        $id = $_GET['id'];
-        $platform = new Platform();
-        $platform = $platform->findOne($id);
-
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/edit.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        // Mostrar el formulario para editar un actor
     }
 
-    public function updated()
+    public function update()
     {
-        $newPlatform = new Platform();
-        $newPlatform->updated($_POST['platformId'], $_POST['platformName']);
-
-
-        header("Location: /");
-        exit();
+        // Procesar el formulario para actualizar un actor
     }
 
     public function delete()
     {
-        $newPlatform = new Platform();
-        $newPlatform->delete($_POST['platformId']);
-
-        header("Location: /");
-        exit();
+        // Eliminar un actor
     }
 }

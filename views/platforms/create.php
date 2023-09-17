@@ -1,12 +1,15 @@
 <?php
+
+
     $pageTitle = "Plataformas";
+    require_once 'Helper/ViewHelper.php';
     ob_start();
 ?>
 
-    <form name="create_platform" action="/platforms/updated" method="POST">
+    <form name="create_platform" action="/platforms/store" method="POST">
         <div class="mb-3">
             <label for="platformName" class="form-label">Nombre plataforma</label>
-            <input id="platformName" name="platformName" type="text" placeholder="Ingrese nombre de Plataforma" class="form-control" required/>
+            <?php echo ViewHelper::input('platformName', 'text', 'Ingrese su nombre'); ?>
         </div>
         <input type="submit" value="Crear" class="btn btn-primary" name="createBtn">
     </form>

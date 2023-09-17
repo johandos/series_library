@@ -2,118 +2,106 @@
 
 namespace models;
 
-require_once __DIR__ . '/../util/conexionDB/conexion.php';
-use util\conexion;
+require_once __DIR__ . '/../Helper/Connection.php';
 
-class Platform{
+use Helper\Connection;
+
+class Platform {
     private $id;
     private $name;
+    private $connection;
 
-    public function __construct($id_platform = null, $plat_name = null)
+    public function __construct($id = null, $name = null)
     {
-        if($id_platform != null){
-            $this->id=$id_platform;
+        if ($id !== null) {
+            $this->id = $id;
         }
-        if($plat_name != null){
-            $this->name=$plat_name;
+        if ($name !== null) {
+            $this->name = $name;
         }
+
+        $this->connection = new Connection();
+        $this->connection = $this->connection->conectar();
     }
 
-    public function getAll(){
-        $conection = new conexion();
-        $mysqli = $conection->conectar();
-        $query = $mysqli->query("SELECT * FROM platform");
+    public function getAll()
+    {
+        $query = $this->connection->query("SELECT * FROM platform");
         $listData = [];
-        foreach ($query as $item){
-            $itemObject = new Platform($item['id_platform'], $item['plat_name']);
+        foreach ($query as $item) {
+            $itemObject = new Platform(
+                $item['id_platform'],
+                $item['plat_name']
+            );
             $listData[] = $itemObject;
         }
-        $mysqli->close();
-        return $listData;
-    }
-    public function findOne($id){
-        $conection = new conexion();
-        $mysqli = $conection->conectar();
-        $query = $mysqli->query("SELECT * FROM platform WHERE id_platform = $id");
-        $listData = [];
-        foreach ($query as $item){
-            $itemObject = new Platform($item['id_platform'], $item['plat_name']);
-            $listData[] = $itemObject;
-        }
-        $mysqli->close();
+        $this->connection->close();
         return $listData;
     }
 
-    function insert($name)
+    public function findOne($id)
+    {
+        $query = $this->connection->query("SELECT * FROM platform WHERE id_platform = $id");
+        $listData = [];
+        foreach ($query as $item) {
+            $itemObject = new Platform(
+                $item['id_platform'],
+                $item['plat_name']
+            );
+            $listData[] = $itemObject;
+        }
+        $this->connection->close();
+        return $listData[0] ?? null;
+    }
+
+    public function insert($name)
     {
         $platformCreated = false;
-        $conection = new conexion();
-        $mysqli = $conection->conectar();
-        if($resultInsert = $mysqli->query("INSERT INTO platform (plat_name) VALUES ('$name')")){
+        $query = "INSERT INTO platform (plat_name) VALUES (?)";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("s", $name);
+        if ($stmt->execute()) {
             $platformCreated = true;
         }
-        $mysqli->close();
+        $stmt->close();
+        $this->connection->close();
         return $platformCreated;
     }
 
-    function updated($id, $name)
+    public function update($id, $name)
     {
-        $platformCreated = false;
-        $conection = new conexion();
-        $mysqli = $conection->conectar();
-        if($resultInsert = $mysqli->query("UPDATE platform SET plat_name='$name' WHERE id_platform=$id")){
-            $platformCreated = true;
+        $platformUpdated = false;
+        $query = "UPDATE platform SET plat_name = ? WHERE id_platform = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("si", $name, $id);
+        if ($stmt->execute()) {
+            $platformUpdated = true;
         }
-        $mysqli->close();
-        return $platformCreated;
+        $stmt->close();
+        $this->connection->close();
+        return $platformUpdated;
     }
 
-    function delete($id)
+    public function delete($id)
     {
-        $platformCreated = false;
-        $conection = new conexion();
-        $mysqli = $conection->conectar();
-        if($resultInsert = $mysqli->query("DELETE FROM platform WHERE id_platform = $id")){
-            $platformCreated = true;
+        $platformDeleted = false;
+        $stmt = $this->connection->prepare("DELETE FROM platform WHERE id_platform = ?");
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            $platformDeleted = true;
         }
-        $mysqli->close();
-        return $platformCreated;
+        $stmt->close();
+        $this->connection->close();
+        return $platformDeleted;
     }
 
-
-        /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->name;
     }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
 }
-
-
-
-

@@ -1,14 +1,15 @@
 <?php
 
-namespace util;
+namespace Helper;
 
-class conexion{
+class Connection {
     function conectar() {
         $enlace = mysqli_connect("127.0.0.1","root", "","series_test");
         if ($enlace->connect_error) {
             die('Error: ' . $enlace->connect_error);
         }
-//        echo "conexion exitosa xD";
+
+        // echo "conexion exitosa";
         return $enlace;
     }
 }

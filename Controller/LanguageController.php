@@ -6,7 +6,7 @@ use models\Platform;
 
 require_once __DIR__ . '/../models/Platform.php';
 
-class IdiomController
+class LanguageController
 {
     public function index()
     {

@@ -8,7 +8,7 @@ use Controller\BaseController;
 require_once __DIR__ . '/../models/Platform.php';
 require_once  __DIR__ . '/BaseController.php';
 
-class PlatformsController extends BaseController
+class TranslateController extends BaseController
 {
     public function index()
     {

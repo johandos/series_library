@@ -18,7 +18,80 @@ class Series {
     private $directorId;
     private $genreId;
     private $restrictionId;
+    private $status;
     private $connection;
+
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    public function getImg()
+    {
+        return $this->img;
+    }
+
+    public function getTrailer()
+    {
+        return $this->trailer;
+    }
+
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    public function getSynopsis()
+    {
+        return $this->synopsis;
+    }
+
+    public function getReleaseDate()
+    {
+        return $this->releaseDate;
+    }
+
+    public function getDirectorId()
+    {
+        return $this->directorId;
+    }
+
+    public function getGenderId()
+    {
+        return $this->genreId;
+    }
+
+    public function getRestrictionId()
+    {
+        return $this->restrictionId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
 
     public function __construct(
         $id = null,
@@ -73,7 +146,7 @@ class Series {
 
     public function getAll()
     {
-        $query = $this->connection->query("SELECT * FROM series");
+        $query = $this->connection->query("SELECT * FROM series WHERE status = true");
         $listData = [];
         foreach ($query as $item) {
             $itemObject = new Series(
@@ -119,18 +192,7 @@ class Series {
         return $listData[0] ?? null;
     }
 
-    public function insert(
-        $title,
-        $subtitle,
-        $img,
-        $trailer,
-        $rating,
-        $synopsis,
-        $releaseDate,
-        $directorId,
-        $genreId,
-        $restrictionId
-    ) {
+    public function insert($data) {
         $seriesCreated = false;
         $query = "INSERT INTO series (
             title, subtitle, img, trailer, rating, synopsis, release_date, id_dir, id_gen, id_restrict
@@ -138,16 +200,16 @@ class Series {
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param(
             "ssssissiii",
-            $title,
-            $subtitle,
-            $img,
-            $trailer,
-            $rating,
-            $synopsis,
-            $releaseDate,
-            $directorId,
-            $genreId,
-            $restrictionId
+            $data['title'],
+            $data['subtitle'],
+            $data['img'],
+            $data['trailer'],
+            $data['rating'],
+            $data['synopsis'],
+            $data['releaseDate'],
+            $data['directorId'],
+            $data['genreId'],
+            $data['restrictionId'],
         );
         if ($stmt->execute()) {
             $seriesCreated = true;
@@ -159,16 +221,7 @@ class Series {
 
     public function update(
         $id,
-        $title,
-        $subtitle,
-        $img,
-        $trailer,
-        $rating,
-        $synopsis,
-        $releaseDate,
-        $directorId,
-        $genreId,
-        $restrictionId
+        $data
     ) {
         $seriesUpdated = false;
         $query = "UPDATE series SET 
@@ -186,16 +239,16 @@ class Series {
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param(
             "ssssissiiii",
-            $title,
-            $subtitle,
-            $img,
-            $trailer,
-            $rating,
-            $synopsis,
-            $releaseDate,
-            $directorId,
-            $genreId,
-            $restrictionId,
+            $data['title'],
+            $data['subtitle'],
+            $data['img'],
+            $data['trailer'],
+            $data['rating'],
+            $data['synopsis'],
+            $data['releaseDate'],
+            $data['directorId'],
+            $data['genreId'],
+            $data['restrictionId'],
             $id
         );
         if ($stmt->execute()) {
@@ -208,69 +261,14 @@ class Series {
 
     public function delete($id)
     {
-        $seriesDeleted = false;
-        $stmt = $this->connection->prepare("DELETE FROM series WHERE id_serie = ?");
-        $stmt->bind_param("i", $id);
+        $directorDelete = false;
+        $query = "UPDATE series SET status = false WHERE id_serie = $id";
+        $stmt = $this->connection->prepare($query);
         if ($stmt->execute()) {
-            $seriesDeleted = true;
+            $directorDelete = true;
         }
         $stmt->close();
         $this->connection->close();
-        return $seriesDeleted;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function getSubtitle()
-    {
-        return $this->subtitle;
-    }
-
-    public function getImg()
-    {
-        return $this->img;
-    }
-
-    public function getTrailer()
-    {
-        return $this->trailer;
-    }
-
-    public function getRating()
-    {
-        return $this->rating;
-    }
-
-    public function getSynopsis()
-    {
-        return $this->synopsis;
-    }
-
-    public function getReleaseDate()
-    {
-        return $this->releaseDate;
-    }
-
-    public function getDirectorId()
-    {
-        return $this->directorId;
-    }
-
-    public function getGenreId()
-    {
-        return $this->genreId;
-    }
-
-    public function getRestrictionId()
-    {
-        return $this->restrictionId;
+        return $directorDelete;
     }
 }

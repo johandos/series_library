@@ -25,10 +25,11 @@
     <nav>
         <ul>
             <li><a href="/">Inicio</a></li>
+            <li><a href="/actors">Actores</a></li>
             <li><a href="/platforms">Plataformas</a></li>
-            <li><a href="#">Directores</a></li>
-            <li><a href="#">Actores</a></li>
-            <li><a href="#">Series</a></li>
+            <li><a href="/directors">Directores</a></li>
+            <li><a href="/gender">Generos</a></li>
+            <li><a href="/series">Series</a></li>
         </ul>
     </nav>
 

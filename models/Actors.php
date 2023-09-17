@@ -6,16 +6,56 @@ require_once __DIR__ . '/../Helper/Connection.php';
 
 use Helper\Connection;
 
-class Actor {
+class Actors {
     private $id;
     private $name;
     private $surname;
-    private $dateOfBirth;
+    private $dateBirth;
     private $nationality;
     private $serieId;
     private $connection;
 
-    public function __construct($id = null, $name = null, $surname = null, $dateOfBirth = null, $nationality = null, $serieId = null)
+
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    public function getDateBirth()
+    {
+        return $this->dateBirth;
+    }
+
+    public function getNationality()
+    {
+        return $this->nationality;
+    }
+
+    public function getSerieId()
+    {
+        return $this->serieId;
+    }
+
+    public function getSeriesName()
+    {
+        $series = new Series();
+        $series = $series->findOne(self::getSerieId());
+
+        return $series->getTitle();
+    }
+
+    public function __construct($id = null, $name = null, $surname = null, $dateBirth = null, $nationality = null, $serieId = null)
     {
         if ($id !== null) {
             $this->id = $id;
@@ -26,8 +66,8 @@ class Actor {
         if ($surname !== null) {
             $this->surname = $surname;
         }
-        if ($dateOfBirth !== null) {
-            $this->dateOfBirth = $dateOfBirth;
+        if ($dateBirth !== null) {
+            $this->dateBirth = $dateBirth;
         }
         if ($nationality !== null) {
             $this->nationality = $nationality;
@@ -45,7 +85,7 @@ class Actor {
         $query = $this->connection->query("SELECT * FROM actor");
         $listData = [];
         foreach ($query as $item) {
-            $itemObject = new Actor(
+            $itemObject = new Actors(
                 $item['id_act'],
                 $item['act_name'],
                 $item['act_surname'],
@@ -64,7 +104,7 @@ class Actor {
         $query = $this->connection->query("SELECT * FROM actor WHERE id_act = $id");
         $listData = [];
         foreach ($query as $item) {
-            $itemObject = new Actor(
+            $itemObject = new Actors(
                 $item['id_act'],
                 $item['act_name'],
                 $item['act_surname'],
@@ -78,12 +118,12 @@ class Actor {
         return $listData[0] ?? null;
     }
 
-    public function insert($name, $surname, $dateOfBirth, $nationality, $serieId)
+    public function insert($name, $surname, $dateBirth, $nationality, $serieId)
     {
         $actorCreated = false;
         $query = "INSERT INTO actor (act_name, act_surname, act_date_birth, act_nacionality, id_serie) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param("ssssi", $name, $surname, $dateOfBirth, $nationality, $serieId);
+        $stmt->bind_param("ssssi", $name, $surname, $dateBirth, $nationality, $serieId);
         if ($stmt->execute()) {
             $actorCreated = true;
         }
@@ -92,12 +132,12 @@ class Actor {
         return $actorCreated;
     }
 
-    public function update($id, $name, $surname, $dateOfBirth, $nationality, $serieId)
+    public function update($id, $name, $surname, $dateBirth, $nationality, $serieId)
     {
         $actorUpdated = false;
         $query = "UPDATE actor SET act_name = ?, act_surname = ?, act_date_birth = ?, act_nacionality = ?, id_serie = ? WHERE id_act = ?";
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param("ssssii", $name, $surname, $dateOfBirth, $nationality, $serieId, $id);
+        $stmt->bind_param("ssssii", $name, $surname, $dateBirth, $nationality, $serieId, $id);
         if ($stmt->execute()) {
             $actorUpdated = true;
         }
@@ -117,35 +157,5 @@ class Actor {
         $stmt->close();
         $this->connection->close();
         return $actorDeleted;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getSurname()
-    {
-        return $this->surname;
-    }
-
-    public function getDateOfBirth()
-    {
-        return $this->dateOfBirth;
-    }
-
-    public function getNationality()
-    {
-        return $this->nationality;
-    }
-
-    public function getSerieId()
-    {
-        return $this->serieId;
     }
 }

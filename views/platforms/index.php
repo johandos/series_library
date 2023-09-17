@@ -10,7 +10,7 @@ ob_start();
         <a class="btn btn-primary" href="platforms/create">Crear plataformas</a>
     </div>
     <section>
-        <h2>Usuarios</h2>
+        <h2>Plataformas</h2>
         <table border="1">
             <thead>
             <tr>

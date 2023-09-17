@@ -8,7 +8,7 @@ use Controller\BaseController;
 require_once __DIR__ . '/../models/Director.php';
 require_once __DIR__ . '/BaseController.php';
 
-class DirectorController extends BaseController
+class DirectorsController extends BaseController
 {
     public function index()
     {
@@ -22,7 +22,7 @@ class DirectorController extends BaseController
 
     public function create()
     {
-        $viewPath = __DIR__ . '/../views/director/create.php';
+        $viewPath = __DIR__ . '/../views/directors/create.php';
         print $this->render($viewPath);
     }
 
@@ -52,7 +52,7 @@ class DirectorController extends BaseController
         $director = new Director();
         $director = $director->findOne($id);
 
-        $viewPath = __DIR__ . '/../views/director/edit.php';
+        $viewPath = __DIR__ . '/../views/directors/edit.php';
         print $this->render($viewPath, ['director' => $director]);
     }
 

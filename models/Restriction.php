@@ -11,6 +11,16 @@ class Restriction {
     private $recomendations;
     private $connection;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getRecomendations()
+    {
+        return $this->recomendations;
+    }
+
     public function __construct($id = null, $recomendations = null)
     {
         if ($id !== null) {
@@ -93,15 +103,5 @@ class Restriction {
         $stmt->close();
         $this->connection->close();
         return $restrictionDeleted;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getRecomendations()
-    {
-        return $this->recomendations;
     }
 }

@@ -1,20 +1,26 @@
 <?php
-
-
-    $pageTitle = "Plataformas";
-    require_once 'Helper/ViewHelper.php';
-    ob_start();
+$pageTitle = "Directores";
+require_once 'Helper/ViewHelper.php';
+ob_start();
 ?>
 
-    <form name="create_platform" action="/platforms/store" method="POST">
+    <form name="create_director" action="/directors/store" method="POST">
         <div class="mb-3">
-            <label for="platformName" class="form-label">Nombre plataforma</label>
-            <?php echo ViewHelper::input('platformName', 'text', 'Ingrese su nombre'); ?>
+            <label for="directorName" class="form-label">Nombre director</label>
+            <?php echo ViewHelper::input('directorName', 'text', 'Ingrese su nombre'); ?>
+        </div>
+        <div class="mb-3">
+            <label for="directorSurname" class="form-label">Apellido director</label>
+            <?php echo ViewHelper::input('directorSurname', 'text', 'Ingrese su apellido'); ?>
+        </div>
+        <div class="mb-3">
+            <label for="directorNacionality" class="form-label">Nacionalidad director</label>
+            <?php echo ViewHelper::input('directorNacionality', 'text', 'Ingrese su nacionalidad'); ?>
         </div>
         <input type="submit" value="Crear" class="btn btn-primary" name="createBtn">
     </form>
 
 <?php
-    $content = ob_get_clean();
-    include __DIR__ . '/../common/layout.php';
+$content = ob_get_clean();
+include __DIR__ . '/../common/layout.php';
 ?>

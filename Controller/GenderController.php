@@ -2,83 +2,66 @@
 
 namespace Controller;
 
-use models\Platform;
+use Controller\BaseController;
+use models\Gender;
 
-require_once __DIR__ . '/../models/Platform.php';
+require_once __DIR__ . '/../models/Gender.php';
+require_once __DIR__ . '/BaseController.php';
 
-class GenderController
+class GenderController extends BaseController
 {
     public function index()
     {
-        $model = new Platform();
-        $platformList = $model->getAll();
-        $platformObjectArray = [];
-        foreach ($platformList as $platformItem) {
-            $platformObject = new Platform($platformItem->getId(), $platformItem->getName());
-            $platformObjectArray[] = $platformObject;
-        }
+        // Obtener la lista de plataformas desde el modelo
+        $model = new Gender();
+        $genders = $model->getAll();
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/index.php');
-        $content = ob_get_contents();
-        ob_end_clean();
+        $viewPath = __DIR__ . '/../views/gender/index.php';
 
-        return $content;
+        print $this->render($viewPath, ['genders' => $genders]);
     }
 
     public function create()
     {
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/create.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/gender/create.php';
+        print $this->render($viewPath);
     }
 
     public function store()
     {
-        $newPlatform = new Platform();
-        $newPlatform->insert($_POST['platformName']);
+        $newGender = new Gender();
+        $newGender->insert($_POST['genderDescription']);
 
 
-        header("Location: /");
+        header("Location: /gender");
         exit();
     }
 
     public function edit()
     {
         $id = $_GET['id'];
-        $platform = new Platform();
-        $platform = $platform->findOne($id);
+        $gender = new Gender();
+        $gender = $gender->findOne($id);
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/edit.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/gender/edit.php';
+        print $this->render($viewPath, ['gender' => $gender]);
     }
 
-    public function updated()
+    public function update()
     {
-        $newPlatform = new Platform();
-        $newPlatform->updated($_POST['platformId'], $_POST['platformName']);
+        $newGender = new Gender();
+        $newGender->update($_POST['genderId'], $_POST['genderDescription']);
 
 
-        header("Location: /");
+        header("Location: /gender");
         exit();
     }
 
     public function delete()
     {
-        $newPlatform = new Platform();
-        $newPlatform->delete($_POST['platformId']);
+        $newGender = new Gender();
+        $newGender->delete($_POST['id']);
 
-        header("Location: /");
-        exit();
+        return 'ok';
     }
 }

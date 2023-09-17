@@ -2,83 +2,63 @@
 
 namespace Controller;
 
-use models\Platform;
+use models\Language;
 
-require_once __DIR__ . '/../models/Platform.php';
+require_once __DIR__ . '/../models/Language.php';
+require_once  __DIR__ . '/BaseController.php';
 
-class LanguageController
+class LanguageController extends BaseController
 {
     public function index()
     {
-        $model = new Platform();
-        $platformList = $model->getAll();
-        $platformObjectArray = [];
-        foreach ($platformList as $platformItem) {
-            $platformObject = new Platform($platformItem->getId(), $platformItem->getName());
-            $platformObjectArray[] = $platformObject;
-        }
+        // Obtener la lista de plataformas desde el modelo
+        $model = new Language();
+        $languages = $model->getAll();
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/index.php');
-        $content = ob_get_contents();
-        ob_end_clean();
+        $viewPath = __DIR__ . '/../views/language/index.php';
 
-        return $content;
+        print $this->render($viewPath, ['languages' => $languages]);
     }
 
     public function create()
     {
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/create.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/language/create.php';
+        print $this->render($viewPath);
     }
 
     public function store()
     {
-        $newPlatform = new Platform();
-        $newPlatform->insert($_POST['platformName']);
+        $newLanguage = new Language();
+        $newLanguage->insert($_POST['languageName'], $_POST['languageName'], $_POST['languageName']);
 
 
-        header("Location: /");
+        header("Location: /language");
         exit();
     }
 
     public function edit()
     {
         $id = $_GET['id'];
-        $platform = new Platform();
-        $platform = $platform->findOne($id);
+        $language = new Language();
+        $language = $language->findOne($id);
 
-        // Renderizar la vista
-        ob_start();
-        include('./views/platforms/edit.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        return $content;
+        $viewPath = __DIR__ . '/../views/language/edit.php';
+        print $this->render($viewPath, ['language' => $language]);
     }
 
-    public function updated()
+    public function update()
     {
-        $newPlatform = new Platform();
-        $newPlatform->updated($_POST['platformId'], $_POST['platformName']);
-
-
-        header("Location: /");
+        $newLanguage = new Language();
+        $newLanguage->update($_POST['id'], $_POST['subtitle'], $_POST['isoCode'], $_POST['audio']);
+        header("Location: /language");
         exit();
     }
 
     public function delete()
     {
-        $newPlatform = new Platform();
-        $newPlatform->delete($_POST['platformId']);
+        $newLanguage = new Language();
+        $newLanguage->delete($_POST['id']);
 
-        header("Location: /");
-        exit();
+        return 'ok';
     }
 }

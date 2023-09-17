@@ -54,7 +54,7 @@ class Director {
 
     public function getAll()
     {
-        $query = $this->connection->query("SELECT * FROM director");
+        $query = $this->connection->query("SELECT * FROM director WHERE dir_status = 1");
         $listData = [];
         foreach ($query as $item) {
             $itemObject = new Director(
@@ -116,14 +116,14 @@ class Director {
 
     public function delete($id)
     {
-        $directorDeleted = false;
-        $stmt = $this->connection->prepare("DELETE FROM director WHERE id_dir = ?");
-        $stmt->bind_param("i", $id);
+        $directorDelete = false;
+        $query = "UPDATE director SET dir_status = false WHERE id_dir = $id";
+        $stmt = $this->connection->prepare($query);
         if ($stmt->execute()) {
-            $directorDeleted = true;
+            $directorDelete = true;
         }
         $stmt->close();
         $this->connection->close();
-        return $directorDeleted;
+        return $directorDelete;
     }
 }

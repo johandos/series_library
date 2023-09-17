@@ -47,10 +47,10 @@ class PlatformsController extends BaseController
         print $this->render($viewPath, ['platform' => $platform]);
     }
 
-    public function updated()
+    public function update()
     {
         $newPlatform = new Platform();
-        $newPlatform->updated($_POST['platformId'], $_POST['platformName']);
+        $newPlatform->update($_POST['platformId'], $_POST['platformName']);
 
         header("Location: /platforms");
         exit();

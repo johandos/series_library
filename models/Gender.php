@@ -6,7 +6,7 @@ require_once __DIR__ . '/../Helper/Connection.php';
 
 use Helper\Connection;
 
-class Gendre {
+class Gender {
     private $id;
     private $description;
     private $connection;
@@ -29,7 +29,7 @@ class Gendre {
         $query = $this->connection->query("SELECT * FROM gendre");
         $listData = [];
         foreach ($query as $item) {
-            $itemObject = new Gendre(
+            $itemObject = new Gender(
                 $item['id_gen'],
                 $item['gen_descrip']
             );
@@ -44,7 +44,7 @@ class Gendre {
         $query = $this->connection->query("SELECT * FROM gendre WHERE id_gen = $id");
         $listData = [];
         foreach ($query as $item) {
-            $itemObject = new Gendre(
+            $itemObject = new Gender(
                 $item['id_gen'],
                 $item['gen_descrip']
             );

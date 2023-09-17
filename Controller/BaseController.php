@@ -6,6 +6,8 @@ use Exception;
 
 class BaseController {
     public function render($viewPath, $data = []) {
+        session_start();
+
         // Extraer los datos del arreglo $data
         extract($data);
 

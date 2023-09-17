@@ -32,9 +32,10 @@
             <li><a href="/series">Series</a></li>
         </ul>
     </nav>
-
-    <?php include(__DIR__.'/modals.html'); ?>
+    <?php include(__DIR__ . '/modals.php'); ?>
     <main>
+        <?php include __DIR__ . '/../common/alerts/validate.php'; ?>
+        <?php include __DIR__ . '/../common/alerts/success.php'; ?>
         <?php echo $content; ?>
     </main>
 

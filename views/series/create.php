@@ -2,7 +2,6 @@
 $pageTitle = "Crear Serie";
 require_once 'Helper/ViewHelper.php';
 ob_start();
-include __DIR__ . '/../common/validate.php';
 ?>
 
 <form name="create_series" action="/series/store" method="POST">

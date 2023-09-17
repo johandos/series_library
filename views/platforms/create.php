@@ -1,8 +1,7 @@
 <?php
-    $pageTitle = "Plataformas";
-    require_once 'Helper/ViewHelper.php';
-    ob_start();
-    include __DIR__ . '/../common/validate.php';
+$pageTitle = "Plataformas";
+require_once 'Helper/ViewHelper.php';
+ob_start();
 ?>
 
     <form name="create_platform" action="/platforms/store" method="POST">

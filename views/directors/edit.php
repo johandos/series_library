@@ -2,7 +2,6 @@
 $pageTitle = "Editar Director";
 require_once 'Helper/ViewHelper.php';
 ob_start();
-include __DIR__ . '/../common/validate.php';
 ?>
 
     <form name="edit_director" action="/directors/update" method="POST">

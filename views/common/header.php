@@ -15,6 +15,6 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<?php include(__DIR__.'/modals.html'); ?>
+<?php include(__DIR__ . '/modals.php'); ?>
 </body>
 </html>

@@ -2,7 +2,6 @@
 $pageTitle = "Editar Género";
 require_once 'Helper/ViewHelper.php';
 ob_start();
-include __DIR__ . '/../common/validate.php';
 ?>
 <form name="edit_gender" action="/gender/update" method="POST">
     <div class="mb-3">

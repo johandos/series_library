@@ -2,7 +2,6 @@
 $pageTitle = "Directores";
 require_once 'Helper/ViewHelper.php';
 ob_start();
-include __DIR__ . '/../common/validate.php';
 ?>
 
     <form name="create_director" action="/directors/store" method="POST">

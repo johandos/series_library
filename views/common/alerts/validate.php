@@ -1,4 +1,4 @@
-<?php if (isset($_SESSION['errors'])){ ?>
+<?php if (isset($_SESSION['errors']) && $_SESSION['errors']['timeout'] > time()){ ?>
     <div>
         <?php foreach ($_SESSION['errors']['value'] as $errors){ ?>
             <?php foreach ($errors as $error){ ?>
@@ -9,5 +9,3 @@
         <?php } ?>
     </div>
 <?php } ?>
-
-

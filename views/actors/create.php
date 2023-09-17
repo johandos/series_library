@@ -2,8 +2,6 @@
 $pageTitle = "Actores";
 require_once 'Helper/ViewHelper.php';
 ob_start();
-
-include __DIR__. '/../common/validate.php';
 ?>
 
 <form name="create_actor" action="/actors/store" method="POST">

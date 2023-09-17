@@ -15,6 +15,7 @@ require_once __DIR__ . '/BaseController.php';
 
 class ActorsController extends BaseController
 {
+
     public function index()
     {
         // Obtener la lista de plataformas desde el modelo
@@ -22,7 +23,6 @@ class ActorsController extends BaseController
         $actors = $model->getAll();
 
         $viewPath = __DIR__ . '/../views/actors/index.php';
-
         print $this->render($viewPath, ['actors' => $actors]);
     }
 
@@ -30,7 +30,6 @@ class ActorsController extends BaseController
     {
         $series = new Series();
         $series = $series->getAll();
-        session_start();
 
         $viewPath = __DIR__ . '/../views/actors/create.php';
         print $this->render($viewPath, ['series' => $series]);
@@ -61,7 +60,7 @@ class ActorsController extends BaseController
             // Antes de la redirección
             $_SESSION['errors'] = [
                 'value' => $validated,
-                'timeout' => time() + 30, // Set the expiration timestamp
+                'timeout' => time() + 5, // Set the expiration timestamp
             ];
 
             // Redirección
@@ -72,6 +71,10 @@ class ActorsController extends BaseController
         $newActors->insert( $_POST['name'], $_POST['surname'], $_POST['dateBirth'], $_POST['nationality'], $_POST['serieId']);
 
 
+        $_SESSION['success'] = [
+            'value' => 'Actor creado correctamente',
+            'timeout' => time() + 5, // Set the expiration timestamp
+        ];
         header("Location: /actors");
         exit();
     }
@@ -91,8 +94,8 @@ class ActorsController extends BaseController
 
     public function update()
     {
-        $validated = $this->validation();
         session_start();
+        $validated = $this->validation();
 
         if (count($validated) > 0){
             // Antes de la redirección
@@ -108,14 +111,24 @@ class ActorsController extends BaseController
         $newActors = new Actors();
         $newActors->update($_POST['id'], $_POST['name'], $_POST['surname'], $_POST['dateBirth'], $_POST['nationality'], $_POST['serieId']);
 
+        $_SESSION['success'] = [
+            'value' => 'Actor actualizado correctamente',
+            'timeout' => time() + 5, // Set the expiration timestamp
+        ];
         header("Location: /actors");
         exit();
     }
 
     public function delete()
     {
+        session_start();
         $newActors = new Actors();
         $newActors->delete($_POST['id']);
+
+        $_SESSION['success'] = [
+            'value' => 'Actor eliminado correctamente',
+            'timeout' => time() + 5, // Set the expiration timestamp
+        ];
 
         return 'ok';
     }

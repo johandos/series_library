@@ -2,10 +2,10 @@
 
 namespace Controller;
 
-use models\Director;
+use Models\Director;
 use Controller\BaseController;
 
-require_once __DIR__ . '/../models/Director.php';
+require_once __DIR__ . '/../Models/Director.php';
 require_once __DIR__ . '/BaseController.php';
 
 class DirectorsController extends BaseController

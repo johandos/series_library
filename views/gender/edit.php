@@ -2,6 +2,7 @@
 $pageTitle = "Editar Género";
 require_once 'Helper/ViewHelper.php';
 ob_start();
+include __DIR__ . '/../common/validate.php';
 ?>
 <form name="edit_gender" action="/gender/update" method="POST">
     <div class="mb-3">
@@ -12,7 +13,7 @@ ob_start();
         <label for="genderDescription" class="form-label">Descripción del Género</label>
         <?php echo ViewHelper::input('genderDescription', 'text', 'Ingrese la descripción del género', $gender->getDescription()); ?>
     </div>
-    <input type="submit" value="Guardar" class="btn btn-primary" name="createBtn">
+    <input type="submit" value="Guardar" class="btn btn-primary" >
 </form>
 
 

@@ -2,6 +2,8 @@
 $pageTitle = "Actores";
 require_once 'Helper/ViewHelper.php';
 ob_start();
+
+include __DIR__. '/../common/validate.php';
 ?>
 
 <form name="create_actor" action="/actors/store" method="POST">
@@ -29,7 +31,7 @@ ob_start();
             <?php } ?>
         </select>
     </div>
-    <input type="submit" value="Crear" class="btn btn-primary" name="createBtn">
+    <input type="submit" value="Crear" class="btn btn-primary" >
 </form>
 
 <?php

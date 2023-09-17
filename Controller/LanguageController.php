@@ -2,9 +2,9 @@
 
 namespace Controller;
 
-use models\Language;
+use Models\Language;
 
-require_once __DIR__ . '/../models/Language.php';
+require_once __DIR__ . '/../Models/Language.php';
 require_once  __DIR__ . '/BaseController.php';
 
 class LanguageController extends BaseController

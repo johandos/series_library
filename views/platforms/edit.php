@@ -2,6 +2,7 @@
     $pageTitle = "Plataformas";
     require_once 'Helper/ViewHelper.php';
     ob_start();
+    include __DIR__ . '/../common/validate.php';
 ?>
 
 <form name="create_platform" action="/platforms/updated" method="POST">
@@ -10,7 +11,7 @@
         <?php echo ViewHelper::input('platformId', 'hidden', value: $platform->getId()); ?>
         <?php echo ViewHelper::input('platformName', 'text', 'Ingrese su nombre', $platform->getName()); ?>
     </div>
-    <input type="submit" value="Guardar" class="btn btn-primary" name="createBtn">
+    <input type="submit" value="Guardar" class="btn btn-primary" >
 </form>
 
 <?php

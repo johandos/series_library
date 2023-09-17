@@ -2,14 +2,14 @@
 
 namespace Controller;
 
-use models\Director;
-use models\Gender;
-use models\Restriction;
-use models\Series;
+use Models\Director;
+use Models\Gender;
+use Models\Restriction;
+use Models\Series;
 use Controller\BaseController;
 
-require_once __DIR__ . '/../models/Series.php';
-require_once __DIR__ . '/../models/Restriction.php';
+require_once __DIR__ . '/../Models/Series.php';
+require_once __DIR__ . '/../Models/Restriction.php';
 require_once __DIR__ . '/BaseController.php';
 
 class SeriesController extends BaseController
@@ -26,7 +26,6 @@ class SeriesController extends BaseController
 
     public function create()
     {
-
         $directors = new Director();
         $directors = $directors->getAll();
 

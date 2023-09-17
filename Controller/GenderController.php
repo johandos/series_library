@@ -3,9 +3,9 @@
 namespace Controller;
 
 use Controller\BaseController;
-use models\Gender;
+use Models\Gender;
 
-require_once __DIR__ . '/../models/Gender.php';
+require_once __DIR__ . '/../Models/Gender.php';
 require_once __DIR__ . '/BaseController.php';
 
 class GenderController extends BaseController

@@ -2,11 +2,15 @@
 
 namespace Controller;
 
-use models\Actors;
+use Models\Actors;
+use Models\Series;
+use Request;
+use Validator;
 use Controller\BaseController;
-use models\Series;
 
-require_once __DIR__ . '/../models/Actors.php';
+require_once __DIR__ . '/../Models/Actors.php';
+require_once __DIR__ . '/../Helper/Validator.php';
+require_once __DIR__ . '/../Helper/Request.php';
 require_once __DIR__ . '/BaseController.php';
 
 class ActorsController extends BaseController
@@ -24,14 +28,48 @@ class ActorsController extends BaseController
 
     public function create()
     {
+        $series = new Series();
+        $series = $series->getAll();
+        session_start();
+
         $viewPath = __DIR__ . '/../views/actors/create.php';
-        print $this->render($viewPath);
+        print $this->render($viewPath, ['series' => $series]);
+    }
+
+    public function validation(): array
+    {
+        $request = new Request();
+
+        $rules = [
+            'name' => 'required|max:25',
+            'surname' => 'required|max:25',
+            'dateBirth' => 'required|date',
+            'nationality' => 'required|max:25',
+        ];
+
+
+        $validator = new Validator($request->all(), $rules);
+        return $validator->validate();
     }
 
     public function store()
     {
+        $validated = $this->validation();
+        session_start();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 30, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /actors/create");
+        }
+
         $newActors = new Actors();
-        $newActors->insert($_POST['id'], $_POST['name'], $_POST['surname'], $_POST['dateBirth'], $_POST['nationality'], $_POST['serieId']);
+        $newActors->insert( $_POST['name'], $_POST['surname'], $_POST['dateBirth'], $_POST['nationality'], $_POST['serieId']);
 
 
         header("Location: /actors");
@@ -53,6 +91,20 @@ class ActorsController extends BaseController
 
     public function update()
     {
+        $validated = $this->validation();
+        session_start();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 30, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /actors/edit?id={$_POST['id']}");
+        }
+
         $newActors = new Actors();
         $newActors->update($_POST['id'], $_POST['name'], $_POST['surname'], $_POST['dateBirth'], $_POST['nationality'], $_POST['serieId']);
 

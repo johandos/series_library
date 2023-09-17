@@ -1,6 +1,6 @@
 <?php
 
-namespace models;
+namespace Models;
 
 require_once __DIR__ . '/../Helper/Connection.php';
 

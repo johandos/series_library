@@ -4,6 +4,7 @@
     $pageTitle = "Plataformas";
     require_once 'Helper/ViewHelper.php';
     ob_start();
+    include __DIR__ . '/../common/validate.php';
 ?>
 
     <form name="create_platform" action="/platforms/store" method="POST">
@@ -11,7 +12,7 @@
             <label for="platformName" class="form-label">Nombre plataforma</label>
             <?php echo ViewHelper::input('platformName', 'text', 'Ingrese su nombre'); ?>
         </div>
-        <input type="submit" value="Crear" class="btn btn-primary" name="createBtn">
+        <input type="submit" value="Crear" class="btn btn-primary" >
     </form>
 
 <?php

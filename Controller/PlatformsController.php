@@ -2,10 +2,10 @@
 
 namespace Controller;
 
-use models\Platform;
+use Models\Platform;
 use Controller\BaseController;
 
-require_once __DIR__ . '/../models/Platform.php';
+require_once __DIR__ . '/../Models/Platform.php';
 require_once  __DIR__ . '/BaseController.php';
 
 class PlatformsController extends BaseController

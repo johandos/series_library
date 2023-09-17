@@ -2,6 +2,7 @@
 $pageTitle = "Series";
 require_once 'Helper/ViewHelper.php';
 ob_start();
+include __DIR__ . '/../common/validate.php';
 ?>
 
 <form name="edit_series" action="/series/update" method="POST">

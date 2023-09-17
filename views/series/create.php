@@ -2,6 +2,7 @@
 $pageTitle = "Crear Serie";
 require_once 'Helper/ViewHelper.php';
 ob_start();
+include __DIR__ . '/../common/validate.php';
 ?>
 
 <form name="create_series" action="/series/store" method="POST">
@@ -64,7 +65,7 @@ ob_start();
             <option value="0">Inactiva</option>
         </select>
     </div>
-    <input type="submit" value="Crear Serie" class="btn btn-primary" name="createBtn">
+    <input type="submit" value="Crear Serie" class="btn btn-primary" >
 </form>
 
 <?php

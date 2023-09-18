@@ -32,9 +32,9 @@ class Actors {
         return $this->surname;
     }
 
-    public function getDateBirth()
+    public function getDateBirth(): string
     {
-        return $this->dateBirth;
+        return date("d-m-Y", strtotime($this->dateBirth));
     }
 
     public function getNationality()

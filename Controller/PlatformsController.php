@@ -36,7 +36,7 @@ class PlatformsController extends BaseController
         $request = new Request();
 
         $rules = [
-            'platformName' => 'required|max:25',
+            'platformName' => 'required|max:25|unique',
         ];
 
 

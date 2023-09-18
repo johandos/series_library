@@ -1,5 +1,7 @@
 <?php
 
+use Helper\Connection;
+
 class Validator
 {
     private $data;
@@ -47,6 +49,18 @@ class Validator
 
     private function required($field, $params): bool
     {
+        return isset($this->data[$field]) && !empty($this->data[$field]);
+    }
+
+    private function unique($field, $params): bool
+    {
+        $connection = new Connection();
+        $connection = $connection->conectar();
+        $valor = $params;
+        $stmt = $connection->prepare("SELECT COUNT(*) FROM tu_tabla WHERE tu_campo = ?");
+        $stmt->execute([$valor]);
+        $count = $stmt->fetchColumn();
+
         return isset($this->data[$field]) && !empty($this->data[$field]);
     }
 

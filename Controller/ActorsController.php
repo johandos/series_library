@@ -70,7 +70,6 @@ class ActorsController extends BaseController
         $newActors = new Actors();
         $newActors->insert( $_POST['name'], $_POST['surname'], $_POST['dateBirth'], $_POST['nationality'], $_POST['serieId']);
 
-
         $_SESSION['success'] = [
             'value' => 'Actor creado correctamente',
             'timeout' => time() + 5, // Set the expiration timestamp

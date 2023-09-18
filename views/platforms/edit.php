@@ -4,7 +4,7 @@ require_once 'Helper/ViewHelper.php';
 ob_start();
 ?>
 
-<form name="create_platform" action="/platforms/updated" method="POST">
+<form name="create_platform" action="/platforms/update" method="POST">
     <div class="mb-3">
         <label for="platformName" class="form-label">Nombre plataforma</label>
         <?php echo ViewHelper::input('platformId', 'hidden', value: $platform->getId()); ?>

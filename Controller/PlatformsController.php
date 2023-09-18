@@ -4,8 +4,12 @@ namespace Controller;
 
 use Models\Platform;
 use Controller\BaseController;
+use Request;
+use Validator;
 
 require_once __DIR__ . '/../Models/Platform.php';
+require_once __DIR__ . '/../Helper/Validator.php';
+require_once __DIR__ . '/../Helper/Request.php';
 require_once  __DIR__ . '/BaseController.php';
 
 class PlatformsController extends BaseController
@@ -27,8 +31,39 @@ class PlatformsController extends BaseController
         print $this->render($viewPath);
     }
 
+    public function validation(): array
+    {
+        $request = new Request();
+
+        $rules = [
+            'platformName' => 'required|max:25',
+        ];
+
+
+        $validator = new Validator($request->all(), $rules);
+        return $validator->validate();
+    }
+
     public function store()
     {
+        $validated = $this->validation();
+        session_start();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /platforms/create");
+        }
+
+        $_SESSION['success'] = [
+            'value' => 'Plataforma agregada correctamente',
+            'timeout' => time() + 5, // Set the expiration timestamp
+        ];
         $newPlatform = new Platform();
         $newPlatform->insert($_POST['platformName']);
 
@@ -49,9 +84,27 @@ class PlatformsController extends BaseController
 
     public function update()
     {
+        session_start();
+        $validated = $this->validation();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 30, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /actors/edit?id={$_POST['id']}");
+        }
+
         $newPlatform = new Platform();
         $newPlatform->update($_POST['platformId'], $_POST['platformName']);
 
+        $_SESSION['success'] = [
+            'value' => 'Plataforma actualizada correctamente',
+            'timeout' => time() + 5, // Set the expiration timestamp
+        ];
         header("Location: /platforms");
         exit();
     }

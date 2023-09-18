@@ -4,8 +4,12 @@ namespace Controller;
 
 use Models\Director;
 use Controller\BaseController;
+use Request;
+use Validator;
 
 require_once __DIR__ . '/../Models/Director.php';
+require_once __DIR__ . '/../Helper/Validator.php';
+require_once __DIR__ . '/../Helper/Request.php';
 require_once __DIR__ . '/BaseController.php';
 
 class DirectorsController extends BaseController
@@ -20,6 +24,21 @@ class DirectorsController extends BaseController
         print $this->render($viewPath, ['directors' => $directors]);
     }
 
+    public function validation(): array
+    {
+        $request = new Request();
+
+        $rules = [
+            'directorName' => 'required|max:25',
+            'directorSurname' => 'required|max:25',
+            'directorNacionality' => 'required|max:25',
+        ];
+
+
+        $validator = new Validator($request->all(), $rules);
+        return $validator->validate();
+    }
+
     public function create()
     {
         $viewPath = __DIR__ . '/../views/directors/create.php';
@@ -28,22 +47,43 @@ class DirectorsController extends BaseController
 
     public function store()
     {
-        // Lógica para crear un director
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['directorName'];
-            $surname = $_POST['directorSurname'];
-            $nacionality = $_POST['directorNacionality'];
+        $validated = $this->validation();
+        session_start();
 
-            $newDirector = new Director();
-            $directorCreated = $newDirector->insert($name, $surname, $nacionality);
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
 
-            if ($directorCreated) {
-                header("Location: /directors");
-                exit();
-            } else {
-                // Manejo de errores
-            }
+            // Redirección
+            header("Location: /directors/create");
         }
+
+
+        $name = $_POST['directorName'];
+        $surname = $_POST['directorSurname'];
+        $nacionality = $_POST['directorNacionality'];
+
+        $newDirector = new Director();
+        $directorCreated = $newDirector->insert($name, $surname, $nacionality);
+
+        if ($directorCreated) {
+            $_SESSION['success'] = [
+                'value' => 'Director creado correctamente',
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+            header("Location: /directors");
+            exit();
+        } else {
+            $_SESSION['errors'] = [
+                'value' => ['error Inesperado'],
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+            header("Location: /directors/create");
+        }
+
     }
 
     public function edit()
@@ -58,6 +98,20 @@ class DirectorsController extends BaseController
 
     public function update()
     {
+        session_start();
+        $validated = $this->validation();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 30, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /directors/edit?id={$_POST['directorId']}");
+        }
+
         // Lógica para actualizar un director
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['directorId'];
@@ -69,10 +123,19 @@ class DirectorsController extends BaseController
             $directorUpdated = $director->update($id, $name, $surname, $nacionality);
 
             if ($directorUpdated) {
+                $_SESSION['success'] = [
+                    'value' => 'Director actualizado correctamente',
+                    'timeout' => time() + 5, // Set the expiration timestamp
+                ];
                 header("Location: /directors");
                 exit();
             } else {
-                // Manejo de errores
+                $_SESSION['errors'] = [
+                    'value' => ['error Inesperado'],
+                    'timeout' => time() + 5, // Set the expiration timestamp
+                ];
+
+                header("Location: /directors/edit?id={$_POST['directorId']}");
             }
         }
     }

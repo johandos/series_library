@@ -6,10 +6,14 @@ use Models\Director;
 use Models\Gender;
 use Models\Restriction;
 use Models\Series;
+use Request;
+use Validator;
 use Controller\BaseController;
 
 require_once __DIR__ . '/../Models/Series.php';
 require_once __DIR__ . '/../Models/Restriction.php';
+require_once __DIR__ . '/../Helper/Validator.php';
+require_once __DIR__ . '/../Helper/Request.php';
 require_once __DIR__ . '/BaseController.php';
 
 class SeriesController extends BaseController
@@ -41,6 +45,28 @@ class SeriesController extends BaseController
             'genders' => $genders,
             'restrictions' => $restrictions
         ]);
+    }
+
+    public function validation(): array
+    {
+        $request = new Request();
+
+        $rules = [
+            'title' => 'required|max:25',
+            'subtitle' => 'required|max:25',
+            'img' => 'required',
+            'trailer' => 'required|max:25',
+            'rating' => 'required|numeric|max:1',
+            'synopsis' => 'required|max:25',
+            'releaseDate' => 'required|date',
+            'directorId' => 'required',
+            'genreId' => 'required',
+            'restrictionId' => 'required',
+        ];
+
+
+        $validator = new Validator($request->all(), $rules);
+        return $validator->validate();
     }
 
     public function edit()
@@ -92,6 +118,20 @@ class SeriesController extends BaseController
 
     public function store()
     {
+        $validated = $this->validation();
+        session_start();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /series/create");
+        }
+
         $data = $this->getFormData();
 
         if ($data === null) {
@@ -104,18 +144,39 @@ class SeriesController extends BaseController
         $seriesCreated = $series->insert($data);
 
         if ($seriesCreated) {
+            $_SESSION['success'] = [
+                'value' => 'Serie creada correctamente',
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
             // Redirige a la página de listado de series después de crear la serie exitosamente
             header("Location: /series");
             exit();
         } else {
-            // Manejar el caso en el que no se pudo crear la serie
-            // Aquí puedes mostrar un mensaje de error o redirigir a otra página
-            // según tus requerimientos.
+            $_SESSION['errors'] = [
+                'value' => ['error Inesperado'],
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            header("Location: /series/create");
         }
     }
 
     public function update()
     {
+        $validated = $this->validation();
+        session_start();
+
+        if (count($validated) > 0){
+            // Antes de la redirección
+            $_SESSION['errors'] = [
+                'value' => $validated,
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            // Redirección
+            header("Location: /series/edit?id={$_POST['id']}");
+        }
+
         $data = $this->getFormData();
         if ($data === null) {
             // Manejar el caso en el que faltan campos requeridos en el formulario
@@ -129,14 +190,22 @@ class SeriesController extends BaseController
         $series = new Series();
         $seriesUpdated = $series->update($seriesId, $data);
 
+
         if ($seriesUpdated) {
+            $_SESSION['success'] = [
+                'value' => 'Serie actualizado correctamente',
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
             // Redirige a la página de detalles de la serie actualizada
             header("Location: /series");
             exit();
         } else {
-            // Manejar el caso en el que no se pudo actualizar la serie
-            // Aquí puedes mostrar un mensaje de error o redirigir a otra página
-            // según tus requerimientos.
+            $_SESSION['errors'] = [
+                'value' => ['error Inesperado'],
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            header("Location: /series/edit?id={$_POST['id']}");
         }
     }
 

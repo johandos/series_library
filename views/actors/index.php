@@ -4,14 +4,14 @@ require_once 'Helper/StringHelper.php';
 ob_start();
 ?>
 <section>
-    <h2>Resumen</h2>
-    <p>Información resumida del panel de administración.</p>
+    <h2>Actores</h2>
+    <p>Son las personas que dan vida a los personajes en la serie. Sus interpretaciones y habilidades actúan como el corazón de la historia, haciéndola real y emocionante.</p>
 </section>
-<div class="col-6">
+<div class="col-6 p-4">
     <a class="btn btn-primary" href="actors/create">Crear Actor</a>
 </div>
 <section>
-    <h2>Actores</h2>
+    <h2>Lista de actores</h2>
     <table border="1">
         <thead>
         <tr>

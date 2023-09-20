@@ -16,7 +16,7 @@ ob_start();
     </div>
     <div class="mb-3">
         <label for="serieImg" class="form-label">Imagen</label>
-        <input type="text" class="form-control" id="serieImg" name="img" value="<?php echo $serie->getImg(); ?>" required>
+        <input type="file" class="form-control" id="serieImg" name="img" value="<?php echo $serie->getImg(); ?>" required>
     </div>
     <div class="mb-3">
         <label for="serieTrailer" class="form-label">Tráiler</label>
@@ -24,7 +24,7 @@ ob_start();
     </div>
     <div class="mb-3">
         <label for="serieRating" class="form-label">Rating</label>
-        <input type="number" class="form-control" id="serieRating" name="rating" value="<?php echo $serie->getRating(); ?>" required>
+        <input type="number" max="5" min="0" class="form-control" id="serieRating" name="rating" value="<?php echo $serie->getRating(); ?>" required>
     </div>
     <div class="mb-3">
         <label for="serieSynopsis" class="form-label">Sinopsis</label>

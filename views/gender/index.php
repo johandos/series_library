@@ -3,14 +3,14 @@ $pageTitle = "Géneros";
 ob_start();
 ?>
 <section>
-    <h2>Resumen</h2>
-    <p>Información resumida del panel de administración de géneros.</p>
+    <h2>Genero</h2>
+    <p>Los géneros son como etiquetas que describen el tipo de historia que estás a punto de ver. Algunas series son graciosas y te hacen reír, mientras que otras son emocionantes o asustadizas. Los géneros te ayudan a saber qué esperar.</p>
 </section>
-<div class="col-6">
+<div class="col-6 p-4">
     <a class="btn btn-primary" href="gender/create">Crear Género</a>
 </div>
 <section>
-    <h2>Géneros</h2>
+    <h2>Lista de géneros</h2>
     <table border="1">
         <thead>
         <tr>

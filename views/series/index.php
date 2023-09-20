@@ -3,14 +3,14 @@ $pageTitle = "Series";
 ob_start();
 ?>
 <section>
-    <h2>Resumen</h2>
-    <p>Información resumida del panel de administración.</p>
+    <h2>Series</h2>
+    <p> Las series son como libros que se dividen en capítulos llamados episodios. En lugar de leerlos, los ves en tu televisor o dispositivo. Cada episodio es como un pedazo de la historia más grande.</p>
 </section>
-<div class="col-6">
+<div class="col-6 p-4">
     <a class="btn btn-primary" href="series/create">Crear Serie</a>
 </div>
 <section>
-    <h2>Series</h2>
+    <h2>Lista de series</h2>
     <table border="1">
         <thead>
         <tr>

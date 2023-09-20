@@ -4,14 +4,14 @@ require_once 'Helper/StringHelper.php';
 ob_start();
 ?>
 <section>
-    <h2>Resumen</h2>
-    <p>Información resumida del panel de administración.</p>
+    <h2>Directores</h2>
+    <p> Los directores son como los capitanes de la serie. Ellos toman las decisiones importantes sobre cómo se verá y se sentirá la historia. Son como los maestros que guían a los actores y al equipo para hacer la serie.</p>
 </section>
-<div class="col-6">
+<div class="col-6 p-4">
     <a class="btn btn-primary" href="directors/create">Crear Director</a>
 </div>
 <section>
-    <h2>Directores</h2>
+    <h2>Lista de directores</h2>
     <table border="1">
         <thead>
         <tr>

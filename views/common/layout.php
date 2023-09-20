@@ -23,7 +23,7 @@
         <h1>Panel de Administración</h1>
     </header>
     <nav>
-        <ul>
+        <ul class="menu">
             <li><a href="/">Inicio</a></li>
             <li><a href="/actors">Actores</a></li>
             <li><a href="/platforms">Plataformas</a></li>
@@ -41,7 +41,7 @@
     </main>
 
     <footer>
-        <p>Derechos de autor &copy; <?php echo date('Y'); ?> Tu Sitio Web</p>
+        <p>Derechos de autor &copy; <?php echo date('Y'); ?> Multiple Plataformas VIU</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

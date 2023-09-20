@@ -3,7 +3,7 @@
 require_once __DIR__ . '/Controller/ActorsController.php';
 require_once __DIR__ . '/Controller/DirectorsController.php';
 require_once __DIR__ . '/Controller/GenderController.php';
-require_once __DIR__ . '/Controller/LanguageController.php';
+require_once __DIR__ . '/Controller/LanguagesController.php';
 require_once __DIR__ . '/Controller/PlatformsController.php';
 require_once __DIR__ . '/Controller/SeriesController.php';
 

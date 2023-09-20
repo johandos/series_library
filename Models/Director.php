@@ -11,6 +11,7 @@ class Director {
     private $name;
     private $surname;
     private $nationality;
+    private $dateBirth;
     private $connection;
 
     public function getId()
@@ -32,8 +33,12 @@ class Director {
     {
         return $this->nationality;
     }
+    public function getDateBirth()
+    {
+        return $this->dateBirth;
+    }
 
-    public function __construct($id = null, $name = null, $surname = null, $nationality = null)
+    public function __construct($id = null, $name = null, $surname = null, $nationality = null, $dateBirth = null)
     {
         if ($id !== null) {
             $this->id = $id;
@@ -46,6 +51,9 @@ class Director {
         }
         if ($nationality !== null) {
             $this->nationality = $nationality;
+        }
+        if ($dateBirth !== null) {
+            $this->dateBirth = $dateBirth;
         }
 
         $this->connection = new Connection();
@@ -61,7 +69,8 @@ class Director {
                 $item['id_dir'],
                 $item['dir_name'],
                 $item['dir_surname'],
-                $item['dir_nacionality']
+                $item['dir_nacionality'],
+                $item['date_birth']
             );
             $listData[] = $itemObject;
         }
@@ -78,7 +87,8 @@ class Director {
                 $item['id_dir'],
                 $item['dir_name'],
                 $item['dir_surname'],
-                $item['dir_nacionality']
+                $item['dir_nacionality'],
+                $item['date_birth']
             );
             $listData[] = $itemObject;
         }
@@ -86,12 +96,12 @@ class Director {
         return $listData[0] ?? null;
     }
 
-    public function insert($name, $surname, $nationality)
+    public function insert($name, $surname, $nationality, $dateBirth)
     {
         $directorCreated = false;
-        $query = "INSERT INTO director (dir_name, dir_surname, dir_nacionality) VALUES (?, ?, ?)";
+        $query = "INSERT INTO director (dir_name, dir_surname, dir_nacionality) VALUES (?, ?, ?, ?)";
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param("sss", $name, $surname, $nationality);
+        $stmt->bind_param("sss", $name, $surname, $nationality, $dateBirth);
         if ($stmt->execute()) {
             $directorCreated = true;
         }
@@ -100,12 +110,12 @@ class Director {
         return $directorCreated;
     }
 
-    public function update($id, $name, $surname, $nationality)
+    public function update($id, $name, $surname, $nationality, $dateBirth)
     {
         $directorUpdated = false;
-        $query = "UPDATE director SET dir_name = ?, dir_surname = ?, dir_nacionality = ? WHERE id_dir = ?";
+        $query = "UPDATE director SET dir_name = ?, dir_surname = ?, dir_nacionality = ?, date_birth = ? WHERE id_dir = ?";
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param("sssi", $name, $surname, $nationality, $id);
+        $stmt->bind_param("sssi", $name, $surname, $nationality, $dateBirth, $id);
         if ($stmt->execute()) {
             $directorUpdated = true;
         }

@@ -58,6 +58,7 @@ class GenderController extends BaseController
 
             // Redirección
             header("Location: /gender/create");
+            exit();
         }
 
         $newGender = new Gender();
@@ -95,6 +96,7 @@ class GenderController extends BaseController
 
             // Redirección
             header("Location: /gender/edit?id={$_POST['id']}");
+            exit();
         }
 
         $newGender = new Gender();

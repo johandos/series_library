@@ -30,7 +30,7 @@ ob_start();
                 <td><?php echo $language->getAudio(); ?></td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Language">
-                        <a class="btn btn-success" href="language/edit?id=<?php echo $language->getId(); ?>">Editar</a>
+                        <a class="btn btn-success" href="languages/edit?id=<?php echo $language->getId(); ?>">Editar</a>
                         &nbsp;&nbsp;
 
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal<?php echo $language->getId(); ?>">
@@ -69,7 +69,7 @@ ob_start();
     function deleteElement(id) {
         // Realiza una solicitud Ajax
         $.ajax({
-            url: 'language/delete',
+            url: 'languages/delete',
             type: 'POST',
             data: { id: id },
             success: function(response) {

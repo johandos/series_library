@@ -52,16 +52,26 @@ class Validator
         return isset($this->data[$field]) && !empty($this->data[$field]);
     }
 
-    private function unique($field, $params): bool
+    private function unique($field, $params)
     {
         $connection = new Connection();
         $connection = $connection->conectar();
-        $valor = $params;
-        $stmt = $connection->prepare("SELECT COUNT(*) FROM tu_tabla WHERE tu_campo = ?");
-        $stmt->execute([$valor]);
-        $count = $stmt->fetchColumn();
+        $table = $params[0];
+        $value = $this->data[$field];
+        $validateExcept = '';
+        if (isset($this->data['id']) && isset($params[1])){
+            $id = $this->data['id'];
+            $validateExcept = "AND $params[1] != $id";
+        }
+        $query = "SELECT COUNT(*) as count FROM $table WHERE $field = '$value' $validateExcept";
+        $query = $connection->query($query);
+        foreach ($query as $item) {
+            if (isset($item['count']) && $item['count']> 0){
+                return false;
+            }
+        }
 
-        return isset($this->data[$field]) && !empty($this->data[$field]);
+        return true;
     }
 
     private function email($field, $params)

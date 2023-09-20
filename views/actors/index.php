@@ -1,5 +1,6 @@
 <?php
 $pageTitle = "Actores";
+require_once 'Helper/StringHelper.php';
 ob_start();
 ?>
 <section>
@@ -29,7 +30,7 @@ ob_start();
                 <td><?php echo $key + 1; ?></td>
                 <td><?php echo $actor->getName(); ?></td>
                 <td><?php echo $actor->getSurname(); ?></td>
-                <td><?php echo $actor->getDateBirth(); ?></td>
+                <td><?php echo StringHelper::dateFormat($actor->getDateBirth()); ?>
                 <td><?php echo $actor->getNationality(); ?></td>
                 <td><?php echo $actor->getSeriesName(); ?></td>
                 <td>

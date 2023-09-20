@@ -1,5 +1,6 @@
 <?php
 $pageTitle = "Directores";
+require_once 'Helper/StringHelper.php';
 ob_start();
 ?>
 <section>
@@ -18,6 +19,7 @@ ob_start();
             <th>Nombre del Director</th>
             <th>Apellido del Director</th>
             <th>Nacionalidad del Director</th>
+            <th>Fecha nacimiento</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -28,6 +30,7 @@ ob_start();
                 <td><?php echo $director->getName(); ?></td>
                 <td><?php echo $director->getSurname(); ?></td>
                 <td><?php echo $director->getNationality(); ?></td>
+                <td><?php echo StringHelper::dateFormat($director->getDateBirth()); ?></td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Director">
                         <a class="btn btn-success" href="directors/edit?id=<?php echo $director->getId();?>">Editar</a>

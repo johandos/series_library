@@ -30,6 +30,7 @@
             <li><a href="/directors">Directores</a></li>
             <li><a href="/gender">Generos</a></li>
             <li><a href="/series">Series</a></li>
+            <li><a href="/languages">Lenguajes</a></li>
         </ul>
     </nav>
     <?php include(__DIR__ . '/modals.php'); ?>

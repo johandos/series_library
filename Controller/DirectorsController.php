@@ -32,6 +32,7 @@ class DirectorsController extends BaseController
             'directorName' => 'required|max:25',
             'directorSurname' => 'required|max:25',
             'directorNacionality' => 'required|max:25',
+            'date_birth' => 'required|date',
         ];
 
 
@@ -59,15 +60,17 @@ class DirectorsController extends BaseController
 
             // Redirección
             header("Location: /directors/create");
+            exit();
         }
 
 
         $name = $_POST['directorName'];
         $surname = $_POST['directorSurname'];
         $nacionality = $_POST['directorNacionality'];
+        $dateBirth = $_POST['date_birth'];
 
         $newDirector = new Director();
-        $directorCreated = $newDirector->insert($name, $surname, $nacionality);
+        $directorCreated = $newDirector->insert($name, $surname, $nacionality, $dateBirth);
 
         if ($directorCreated) {
             $_SESSION['success'] = [
@@ -75,7 +78,6 @@ class DirectorsController extends BaseController
                 'timeout' => time() + 5, // Set the expiration timestamp
             ];
             header("Location: /directors");
-            exit();
         } else {
             $_SESSION['errors'] = [
                 'value' => ['error Inesperado'],
@@ -83,6 +85,7 @@ class DirectorsController extends BaseController
             ];
             header("Location: /directors/create");
         }
+        exit();
 
     }
 
@@ -110,6 +113,7 @@ class DirectorsController extends BaseController
 
             // Redirección
             header("Location: /directors/edit?id={$_POST['directorId']}");
+            exit();
         }
 
         // Lógica para actualizar un director
@@ -118,9 +122,10 @@ class DirectorsController extends BaseController
             $name = $_POST['directorName'];
             $surname = $_POST['directorSurname'];
             $nacionality = $_POST['directorNacionality'];
+            $dateBirth = $_POST['date_birth'];
 
             $director = new Director();
-            $directorUpdated = $director->update($id, $name, $surname, $nacionality);
+            $directorUpdated = $director->update($id, $name, $surname, $nacionality, $dateBirth);
 
             if ($directorUpdated) {
                 $_SESSION['success'] = [
@@ -136,6 +141,7 @@ class DirectorsController extends BaseController
                 ];
 
                 header("Location: /directors/edit?id={$_POST['directorId']}");
+                exit();
             }
         }
     }

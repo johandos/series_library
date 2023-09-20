@@ -2,32 +2,31 @@
 
 namespace Controller;
 
-use Models\Platform;
-use Controller\BaseController;
+use Models\Language;
 use Request;
 use Validator;
 
-require_once __DIR__ . '/../Models/Platform.php';
+require_once __DIR__ . '/../Models/Language.php';
 require_once __DIR__ . '/../Helper/Validator.php';
 require_once __DIR__ . '/../Helper/Request.php';
 require_once  __DIR__ . '/BaseController.php';
 
-class PlatformsController extends BaseController
+class LanguagesController extends BaseController
 {
     public function index()
     {
         // Obtener la lista de plataformas desde el modelo
-        $model = new Platform();
-        $platforms = $model->getAll();
+        $model = new Language();
+        $languages = $model->getAll();
 
-        $viewPath = __DIR__ . '/../views/platforms/index.php';
+        $viewPath = __DIR__ . '/../views/language/index.php';
 
-        print $this->render($viewPath, ['platforms' => $platforms]);
+        print $this->render($viewPath, ['languages' => $languages]);
     }
 
     public function create()
     {
-        $viewPath = __DIR__ . '/../views/platforms/create.php';
+        $viewPath = __DIR__ . '/../views/language/create.php';
         print $this->render($viewPath);
     }
 
@@ -36,7 +35,9 @@ class PlatformsController extends BaseController
         $request = new Request();
 
         $rules = [
-            'plat_name' => 'required|max:25|unique:platform',
+            'lenguage_sub' => 'required|max:25|unique:lenguage,id_leng',
+            'iso_code' => 'required|max:25|unique:lenguage,id_leng',
+            'lenguage_audio' => 'required|max:25',
         ];
 
 
@@ -57,30 +58,29 @@ class PlatformsController extends BaseController
             ];
 
             // Redirección
-            header("Location: /platforms/create");
+            header("Location: /languages/create");
             exit();
         }
 
+        $newLanguage = new Language();
+        $newLanguage->insert($_POST['lenguage_sub'], $_POST['iso_code'], $_POST['lenguage_audio']);
+
         $_SESSION['success'] = [
-            'value' => 'Plataforma agregada correctamente',
+            'value' => 'Lenguaje agregada correctamente',
             'timeout' => time() + 5, // Set the expiration timestamp
         ];
-        $newPlatform = new Platform();
-        $newPlatform->insert($_POST['plat_name']);
-
-
-        header("Location: /platforms");
+        header("Location: /languages");
         exit();
     }
 
     public function edit()
     {
         $id = $_GET['id'];
-        $platform = new Platform();
-        $platform = $platform->findOne($id);
+        $language = new Language();
+        $language = $language->findOne($id);
 
-        $viewPath = __DIR__ . '/../views/platforms/edit.php';
-        print $this->render($viewPath, ['platform' => $platform]);
+        $viewPath = __DIR__ . '/../views/language/edit.php';
+        print $this->render($viewPath, ['language' => $language]);
     }
 
     public function update()
@@ -96,25 +96,24 @@ class PlatformsController extends BaseController
             ];
 
             // Redirección
-            header("Location: /actors/edit?id={$_POST['id']}");
+            header("Location: /languages/edit?id={$_POST['id']}");
             exit();
         }
-
-        $newPlatform = new Platform();
-        $newPlatform->update($_POST['platformId'], $_POST['plat_name']);
+        $newLanguage = new Language();
 
         $_SESSION['success'] = [
-            'value' => 'Plataforma actualizada correctamente',
+            'value' => 'Lenguaje actualizada correctamente',
             'timeout' => time() + 5, // Set the expiration timestamp
         ];
-        header("Location: /platforms");
+        $newLanguage->update($_POST['id'], $_POST['lenguage_sub'], $_POST['iso_code'], $_POST['lenguage_audio']);
+        header("Location: /languages");
         exit();
     }
 
     public function delete()
     {
-        $newPlatform = new Platform();
-        $newPlatform->delete($_POST['id']);
+        $newLanguage = new Language();
+        $newLanguage->delete($_POST['id']);
 
         return 'ok';
     }

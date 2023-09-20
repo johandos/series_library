@@ -130,6 +130,7 @@ class SeriesController extends BaseController
 
             // Redirección
             header("Location: /series/create");
+            exit();
         }
 
         $data = $this->getFormData();
@@ -158,6 +159,7 @@ class SeriesController extends BaseController
             ];
 
             header("Location: /series/create");
+            exit();
         }
     }
 
@@ -175,6 +177,7 @@ class SeriesController extends BaseController
 
             // Redirección
             header("Location: /series/edit?id={$_POST['id']}");
+            exit();
         }
 
         $data = $this->getFormData();
@@ -206,6 +209,7 @@ class SeriesController extends BaseController
             ];
 
             header("Location: /series/edit?id={$_POST['id']}");
+            exit();
         }
     }
 

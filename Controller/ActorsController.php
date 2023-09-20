@@ -65,6 +65,7 @@ class ActorsController extends BaseController
 
             // Redirección
             header("Location: /actors/create");
+            exit();
         }
 
         $newActors = new Actors();
@@ -100,11 +101,12 @@ class ActorsController extends BaseController
             // Antes de la redirección
             $_SESSION['errors'] = [
                 'value' => $validated,
-                'timeout' => time() + 30, // Set the expiration timestamp
+                'timeout' => time() + 5, // Set the expiration timestamp
             ];
 
             // Redirección
             header("Location: /actors/edit?id={$_POST['id']}");
+            exit();
         }
 
         $newActors = new Actors();

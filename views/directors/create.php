@@ -17,6 +17,10 @@ ob_start();
             <label for="directorNacionality" class="form-label">Nacionalidad director</label>
             <?php echo ViewHelper::input('directorNacionality', 'text', 'Ingrese su nacionalidad'); ?>
         </div>
+        <div class="mb-3">
+            <label for="dateBirth" class="form-label">Fecha nacimiento</label>
+            <?php echo ViewHelper::input('dateBirth', 'date', ''); ?>
+        </div>
         <input type="submit" value="Crear" class="btn btn-primary" >
     </form>
 

@@ -99,9 +99,9 @@ class Director {
     public function insert($name, $surname, $nationality, $dateBirth)
     {
         $directorCreated = false;
-        $query = "INSERT INTO director (dir_name, dir_surname, dir_nacionality) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO director (dir_name, dir_surname, dir_nacionality, date_birth) VALUES (?, ?, ?, ?)";
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param("sss", $name, $surname, $nationality, $dateBirth);
+        $stmt->bind_param("ssss", $name, $surname, $nationality, $dateBirth);
         if ($stmt->execute()) {
             $directorCreated = true;
         }

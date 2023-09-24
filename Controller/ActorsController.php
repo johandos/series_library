@@ -3,6 +3,8 @@
 namespace Controller;
 
 use Models\Actors;
+use Models\Gender;
+use Models\Restriction;
 use Models\Series;
 use Request;
 use Validator;
@@ -31,8 +33,20 @@ class ActorsController extends BaseController
         $series = new Series();
         $series = $series->getAll();
 
-        $viewPath = __DIR__ . '/../views/actors/create.php';
-        print $this->render($viewPath, ['series' => $series]);
+        if (count($series) > 0){
+            $viewPath = __DIR__ . '/../views/actors/create.php';
+            print $this->render($viewPath, ['series' => $series]);
+
+        }else{
+            $_SESSION['errors'] = [
+                'value' => ['Es necesario crear una serie primero'],
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            header("Location: /series");
+            exit();
+        }
+
     }
 
     public function validation(): array

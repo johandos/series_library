@@ -32,7 +32,7 @@ class DirectorsController extends BaseController
             'directorName' => 'required|max:25',
             'directorSurname' => 'required|max:25',
             'directorNacionality' => 'required|max:25',
-            'date_birth' => 'required|date',
+            'dateBirth' => 'required|date',
         ];
 
 
@@ -63,11 +63,10 @@ class DirectorsController extends BaseController
             exit();
         }
 
-
         $name = $_POST['directorName'];
         $surname = $_POST['directorSurname'];
         $nacionality = $_POST['directorNacionality'];
-        $dateBirth = $_POST['date_birth'];
+        $dateBirth = $_POST['dateBirth'];
 
         $newDirector = new Director();
         $directorCreated = $newDirector->insert($name, $surname, $nacionality, $dateBirth);
@@ -122,7 +121,7 @@ class DirectorsController extends BaseController
             $name = $_POST['directorName'];
             $surname = $_POST['directorSurname'];
             $nacionality = $_POST['directorNacionality'];
-            $dateBirth = $_POST['date_birth'];
+            $dateBirth = $_POST['dateBirth'];
 
             $director = new Director();
             $directorUpdated = $director->update($id, $name, $surname, $nacionality, $dateBirth);

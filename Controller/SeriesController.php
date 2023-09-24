@@ -33,18 +33,30 @@ class SeriesController extends BaseController
         $directors = new Director();
         $directors = $directors->getAll();
 
-        $genders = new Gender();
-        $genders = $genders->getAll();
 
-        $restrictions = new Restriction();
-        $restrictions = $restrictions->getAll();
+        if (count($directors) > 0){
+            $genders = new Gender();
+            $genders = $genders->getAll();
 
-        $viewPath = __DIR__ . '/../views/series/create.php';
-        print $this->render($viewPath, [
-            'directors' => $directors,
-            'genders' => $genders,
-            'restrictions' => $restrictions
-        ]);
+            $restrictions = new Restriction();
+            $restrictions = $restrictions->getAll();
+
+            $viewPath = __DIR__ . '/../views/series/create.php';
+            print $this->render($viewPath, [
+                'directors' => $directors,
+                'genders' => $genders,
+                'restrictions' => $restrictions
+            ]);
+
+        }else{
+            $_SESSION['errors'] = [
+                'value' => ['Es necesario crear un director primero'],
+                'timeout' => time() + 5, // Set the expiration timestamp
+            ];
+
+            header("Location: /directors");
+            exit();
+        }
     }
 
     public function validation(): array

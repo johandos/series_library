@@ -21,7 +21,7 @@ ob_start();
             <th>Fecha de Nacimiento</th>
             <th>Nacionalidad</th>
             <th>Serie Asociada</th>
-            <th>Acciones</th>
+            <th>Acciones</th>D
         </tr>
         </thead>
         <tbody>
